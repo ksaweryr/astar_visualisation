@@ -33,10 +33,11 @@ namespace TexData {
     extern "C" unsigned int cell_overlay_len;
 }
 
-Grid::Grid(size_t width, size_t height, SDL_Rect rect, std::vector<std::unique_ptr<Texture>>&& textures) : _width(width), _height(height), _rect(rect), textures(std::move(textures)), start({0, 0}), target({height - 1, width - 1}) {
-    auto [_, __, w, h] = rect;
+Grid::Grid(size_t width, size_t height, SDL_Rect rect, std::vector<std::unique_ptr<Texture>>&& textures) : _width(width), _height(height), textures(std::move(textures)), start({0, 0}), target({height - 1, width - 1}) {
+    auto [x, y, w, h] = rect;
 
     _tile_size = std::min(h / height, w / width);
+    _rect = {x, y, width * _tile_size, height * _tile_size};
     update();
 }
 
