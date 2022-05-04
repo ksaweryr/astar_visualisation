@@ -17,7 +17,10 @@ case $subdir in
         sed -i "s/${xxd_var}/${object}/g" ${target_file}
         ;;
     "fonts")
+        xxd_var=$(echo ${path} | sed 's/\W/_/g')
+
         xxd -i ${path} ${target_file}
+        sed -i "s/${xxd_var}/${object}/g" ${target_file}
         ;;
     *)
         echo "Unknown subdirectory ${subdir}!"
