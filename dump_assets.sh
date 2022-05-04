@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for path in assets/*; do
+for path in assets/gfx/*; do
     source_file=${path##*/}
     object=${source_file%.*}
     target_file="$1/${object}.cpp"
