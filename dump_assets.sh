@@ -15,6 +15,7 @@ case $subdir in
         montage ${path} -tile x1 -alpha On -geometry '+0+0' -background 'rgba(0, 0, 0, 0)' -quality 100 ${temp_file}
         xxd -i ${temp_file} ${target_file}
         sed -i "s/${xxd_var}/${object}/g" ${target_file}
+        rm ${temp_file}
         ;;
     "fonts")
         xxd_var=$(echo ${path} | sed 's/\W/_/g')
