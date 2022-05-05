@@ -29,7 +29,7 @@ Texture::Texture(SDL_Texture* atlas, std::pair<int, int> frame_size, int frame_d
     this->atlas = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture*)>>(atlas, SDL_DestroyTexture);
 }
 
-void Texture::draw(SDL_Renderer* renderer, SDL_Rect dst, double rotation_angle, uint8_t alpha) {
+void Texture::draw(SDL_Renderer* renderer, SDL_Rect dst, double rotation_angle, uint8_t alpha) const {
     auto [w, h] = frame_size;
     uint64_t time = static_cast<uint64_t>(static_cast<double>(SDL_GetPerformanceCounter()) / SDL_GetPerformanceFrequency() * 1000);
     SDL_Rect src = {((time / frame_duration) % frame_count) * w, 0, w, h};

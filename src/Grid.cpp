@@ -60,21 +60,21 @@ Grid* Grid::create(SDL_Renderer* renderer, size_t width, size_t height, SDL_Rect
     return new Grid(width, height, rect, std::move(textures));
 }
 
-double Grid::heuristic(Cell cell) {
+double Grid::heuristic(Cell cell) const {
     int dy = std::abs(static_cast<int>(cell.first) - static_cast<int>(target.first));
     int dx = std::abs(static_cast<int>(cell.second) - static_cast<int>(target.second));
 
     return dx + dy;
 }
 
-void Grid::draw_tile(SDL_Renderer* renderer, Grid::Tex texture, Cell cell, double rotation, uint8_t alpha) {
+void Grid::draw_tile(SDL_Renderer* renderer, Grid::Tex texture, Cell cell, double rotation, uint8_t alpha) const {
     auto [x, y, _, __] = rect;
     auto [j, i] = cell;
 
     textures[static_cast<size_t>(texture)]->draw(renderer, {x + i * tile_size, y + j * tile_size, tile_size, tile_size}, rotation, alpha);
 }
 
-void Grid::draw(SDL_Renderer* renderer) {
+void Grid::draw(SDL_Renderer* renderer) const {
     auto [x, y, _, __] = rect;
 
     for(int i = 0; i < width; i++) {
@@ -157,6 +157,8 @@ void Grid::update() {
         path.push_back(current);
         current = parent[current.first][current.second];
     }
+
+    _last_update = SDL_GetPerformanceCounter();
 }
 
 void Grid::handle_mouse_motion(SDL_MouseMotionEvent const& e) {
@@ -196,6 +198,14 @@ void Grid::handle_mouse_wheel(SDL_MouseWheelEvent const& e) {
     } else if(e.y < 0) {
         selected_tile = (selected_tile + placeable.size() - 1) % placeable.size();
     }
+}
+
+int Grid::get_path_len() const {
+    return path.size();
+}
+
+int Grid::get_visited_tiles_count() const {
+    return visited.size();
 }
 
 void Grid::set_start(size_t x, size_t y) {

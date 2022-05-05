@@ -16,5 +16,5 @@ private:
 public:
     static Texture* create(SDL_Renderer* renderer, const void* mem, int data_size, std::pair<int, int> frame_size, int frame_duration);
 
-    void draw(SDL_Renderer* renderer, SDL_Rect dst, double rotation_angle, uint8_t alpha);
+    void draw(SDL_Renderer* renderer, SDL_Rect dst, double rotation_angle, uint8_t alpha) const;
 };

@@ -1,0 +1,15 @@
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	set(VC_LIB_PATH_SUFFIX lib/x64)
+else()
+	set(VC_LIB_PATH_SUFFIX lib/x86)
+endif()
+
+find_path(SDL2_TTF_INCLUDE_DIR
+	SDL_ttf.h
+	PATH_SUFFIXES SDL2 include/SDL2 include
+)
+
+find_library(SDL2_TTF_LIBRARY
+	NAMES SDL2_ttf
+	PATH_SUFFIXES lib ${VC_LIB_PATH_SUFFIX}
+)

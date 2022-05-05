@@ -1,5 +1,6 @@
 #include "App.hpp"
 #include <iostream>
+#include <SDL2/SDL_ttf.h>
 
 App::App() {
 
@@ -18,6 +19,7 @@ App::~App() {
         SDL_DestroyWindow(window);
     }
 
+    TTF_Quit();
     SDL_Quit();
 }
 
@@ -33,7 +35,7 @@ void App::init() {
     
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
-    window = SDL_CreateWindow("A* algorithm", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 720, 480, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("A* algorithm", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
 
     if(window == nullptr) {
         error();
@@ -45,9 +47,19 @@ void App::init() {
         error();
     }
 
-    grid = Grid::create(renderer, 15, 10, {0, 0, 720, 480});
+    if(TTF_Init() < 0) {
+        error();
+    }
+
+    grid = Grid::create(renderer, 16, 10, {0, 100, 800, 600});
 
     if(grid == nullptr) {
+        error();
+    }
+
+    header = Header::create(50, grid, {0, 0, 800, 100}, {255, 255, 255, 255});
+
+    if(header == nullptr) {
         error();
     }
 
@@ -91,6 +103,7 @@ void App::draw() {
     SDL_RenderClear(renderer);
 
     grid->draw(renderer);
+    header->draw(renderer);
 
     SDL_RenderPresent(renderer);
 }

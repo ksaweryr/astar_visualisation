@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.21)
 set(CMAKE_CXX_STANDARD 17)
 
 project(astar_visualisation)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/)
 
 file(GLOB SOURCES "src/*.cpp")
 
@@ -14,6 +15,7 @@ set(DUMPED_ASSETS ${ASSETS})
 list(TRANSFORM DUMPED_ASSETS REPLACE "^.*/(.*)\\..*$" "assets/\\1.cpp")
 
 find_package(SDL2 REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 
 add_custom_command(OUTPUT assets
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
@@ -37,8 +39,10 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME}
     PRIVATE includes
     PRIVATE ${SDL2_INCLUDE_DIRS}
+    PRIVATE ${SDL2_TTF_INCLUDE_DIR}
 )
 
 target_link_libraries(${PROJECT_NAME}
     ${SDL2_LIBRARIES}
+    ${SDL2_TTF_LIBRARY}
 )
