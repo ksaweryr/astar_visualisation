@@ -109,10 +109,15 @@ void App::draw() {
 }
 
 void App::run() {
+    uint64_t previous_stamp;
+    uint64_t execution_time;
     init();
 
     while(running) {
+        previous_stamp = SDL_GetPerformanceCounter();
         handle_events();
         draw();
+        execution_time = static_cast<uint64_t>(static_cast<double>(SDL_GetPerformanceCounter() - previous_stamp) / SDL_GetPerformanceFrequency() * 1000);
+        SDL_Delay(execution_time > 17 ? 0 : 17 - execution_time); // the app runs at ca. 60 fps
     }
 }
